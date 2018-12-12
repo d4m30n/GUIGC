@@ -9,15 +9,15 @@ import java.util.Random;
 import javafx.event.ActionEvent;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 
 public class GUIGCStage extends Stage{
 	private static int nextId = 0;
 	private final int ID = nextId++;
 	
-	private final Random random;
-	
 	private Pane rootPane;
+	private GUIGCSettingsPane settings; // Link to the initial settings.
 	
 	private volatile int clicks = 0;
 	
@@ -35,9 +35,9 @@ public class GUIGCStage extends Stage{
 		return gcList;
 	}
 	
-	private GUIGCStage(int seed, int depth, int breadth, int nButtons){
+	private GUIGCStage(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons){
 		super.setTitle("GUI GC Stage " + ID);
-		
+		this.settings = settings;
 		random = new Random(seed);
 		
 		constructStage(depth, breadth, nButtons);
@@ -81,6 +81,15 @@ public class GUIGCStage extends Stage{
 	
 	void clicked(ActionEvent event){
 		clicks++;
+		//preform a hash when the button is clicked. NOTE: There is a setting that determins the number of hashs.
+		byte[] hashString = this.settings.randomString().getBytes("UTF-8");
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		for(int times = 0; times < settings.NumHash(); time++){
+			md.reset();
+			hashString = md.digest(hashString);
+		}
+		System.out.println(String.format("%02x",hashString));
+		//Delete items here.
 	}
 	
 	void clickButtons(){
@@ -102,13 +111,12 @@ public class GUIGCStage extends Stage{
 		});
 	}
 	
-	public static void runTest(int seed, int depth, int breadth, int nButtons, int sleepTime, boolean runAsyncGCOnSleep){
-				
+	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons, int sleepTime, boolean runAsyncGCOnSleep){
 		try{
 			ArrayList<GCStats> gcs0 = collectGCStats();
 			long[] t = new long[6];
 			t[0] = System.currentTimeMillis();
-			GUIGCStage testStage = new GUIGCStage(seed, depth, breadth, nButtons);
+			GUIGCStage testStage = new GUIGCStage(settings, seed, depth, breadth, nButtons);
 			t[1] = System.currentTimeMillis();
 			testStage.show();
 			t[2] = System.currentTimeMillis();
