@@ -93,7 +93,7 @@ public class GUIGCBench extends Application {
 		int sleepTime = settingsPane.getSleepTime();
 
 		for(int i=0; i<reps; i++){
-			GUIGCStage.runTest(seed, depth, breadth, nButtons, sleepTime, runAsyncGCOnSleep);
+			GUIGCStage.runTest(settingsPane, seed, depth, breadth, nButtons, sleepTime, runAsyncGCOnSleep);
 		}
 	}
 } 
