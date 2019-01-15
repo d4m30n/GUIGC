@@ -1,5 +1,5 @@
 #/bin/bash
-
+docker run -v $PWD:/vol -w /vol guigcj9 cp /opt/ibm/java/jre/lib/jfxrt.jar /vol
 for rep in 1 2 3 4 5 6 7 8
 do
 	for cpus in 1 2 4 8
@@ -19,5 +19,4 @@ do
 			done
 		done
 	done
-
 done
