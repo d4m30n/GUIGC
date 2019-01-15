@@ -63,12 +63,12 @@ public class GUIGCSettingsPane extends HBox {
 		return returnString;
 	}
 
-	public int NumHash() {
+	public int getHashNumber() {
 		return Integer.parseInt(this.hashTimesField.getText());
 	}
 
-	public int getDeletePercentage() {
-		return Integer.parseInt(this.randomDeleteField.getText());
+	public float getDeletePercentage() {
+		return Float.parseFloat(this.randomDeleteField.getText());
 	}
 
 	Button buttonA, buttonB, buttonC, buttonD;

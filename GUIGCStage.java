@@ -91,16 +91,18 @@ public class GUIGCStage extends Stage {
 	void clicked(ActionEvent event) {
 		try {
 			clicks++;
-			// preform a hash when the button is clicked. NOTE: There is a setting that
-			// determins the number of hashs.
-			byte[] hashString = this.settings.randomString().getBytes("UTF-8");
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			for (int times = 0; times < settings.NumHash(); times++) {
-				md.reset();
-				hashString = md.digest(hashString);
+			if (settings.getHashNumber() > 0) {
+				// preform a hash when the button is clicked. NOTE: There is a setting that
+				// determins the number of hashs.
+				byte[] hashString = this.settings.randomString().getBytes("UTF-8");
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				for (int times = 0; times < settings.getHashNumber(); times++) {
+					md.reset();
+					hashString = md.digest(hashString);
+				}
+				// System.out.println("Hash: " + hashString);
 			}
-			System.out.println(String.format("%02x", hashString));
-			int numToDelete = bList.size() * settings.getDeletePercentage();
+			int numToDelete = (int) Math.ceil(bList.size() * settings.getDeletePercentage());
 			for (int i = 0; i < numToDelete; i++) {
 				int itemToDelete = settings.getRandomNumber(0, bList.size());
 				bList.remove(itemToDelete);
