@@ -45,11 +45,11 @@ public class GUIGCBench extends Application {
 
 		String gcNames = "";
 		for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
-			gcNames += "\t#" + gc.getName();
-			gcNames += "\t" + gc.getName() + "(ms)";
+			gcNames += ",#" + gc.getName();
+			gcNames += "," + gc.getName() + "(ms)";
 		}
 
-		System.out.println("Create\tShow\tFiring\tClose\tSleep\tTotal" + gcNames);
+		System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
 
 		primaryStage.setTitle("GUI GC Bench");
 

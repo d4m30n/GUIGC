@@ -161,15 +161,15 @@ public class GUIGCStage extends Stage {
 			ArrayList<GCStats> gcs1 = collectGCStats();
 
 			for (int i = 1; i < t.length; i++) {
-				System.out.print((t[i] - t[i - 1]) + "\t");
+				System.out.print((t[i] - t[i - 1]) + ",");
 			}
-			System.out.print((t[t.length - 1] - t[0]) + "\t");
+			System.out.print((t[t.length - 1] - t[0]) + ",");
 
 			for (GCStats gcStats0 : gcs0) {
 				for (GCStats gcStats1 : gcs1) {
 					if (gcStats0.NAME.equals(gcStats1.NAME)) {
-						System.out.print((gcStats1.COUNT - gcStats0.COUNT) + "\t");
-						System.out.print((gcStats1.TIME - gcStats0.TIME) + "\t");
+						System.out.print((gcStats1.COUNT - gcStats0.COUNT) + ",");
+						System.out.print((gcStats1.TIME - gcStats0.TIME) + ",");
 					}
 				}
 			}
