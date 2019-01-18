@@ -13,6 +13,7 @@ RUN apt-get install libasound2 -y
 RUN apt-get install libgtk-3-dev -y
 RUN apt-get install libswt-gtk-3-java -y
 RUN apt-get install p7zip-full
+RUN apt-get install linux-tools-generic -y
 RUN apt-get update
 RUN apt-get clean
 
