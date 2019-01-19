@@ -14,6 +14,7 @@ RUN apt-get install libgtk-3-dev -y
 RUN apt-get install libswt-gtk-3-java -y
 RUN apt-get install p7zip-full
 RUN apt-get install linux-tools-generic -y
+RUN apt-get install xvfb -y
 RUN apt-get update
 RUN apt-get clean
 
@@ -25,5 +26,7 @@ RUN cp /openjfx/usr/lib/jvm/openjfx/rt/lib/amd64/*.so /opt/ibm/java/jre/lib/amd6
 RUN cp /openjfx/usr/lib/jvm/openjfx/rt/lib/ext/jfxrt.jar /opt/ibm/java/jre/lib/
 RUN rm -r /openjfx && rm openjfx-8.0.202-2.b02.fc29.x86_64.rpm && rm openjfx-8.0.202-2.b02.fc29.x86_64.cpio
 
+ENV DISPLAY=:1
+COPY entrypoint.sh /entrypoint.sh
 # cd to vol
 CMD cd /vol && java GUIGCBench
