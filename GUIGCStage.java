@@ -100,7 +100,7 @@ public class GUIGCStage extends Stage {
 					md.reset();
 					hashString = md.digest(hashString);
 				}
-				// System.out.println("Hash: " + hashString);
+				System.out.println("Hash: " + hashString);
 			}
 			int numToDelete = (int) Math.ceil(bList.size() * settings.getDeletePercentage());
 			for (int i = 0; i < numToDelete; i++) {
@@ -133,8 +133,8 @@ public class GUIGCStage extends Stage {
 		});
 	}
 
-	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons,
-			int sleepTime, boolean runAsyncGCOnSleep) {
+	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons, int sleepTime,
+			boolean runAsyncGCOnSleep) {
 		try {
 			ArrayList<GCStats> gcs0 = collectGCStats();
 			long[] t = new long[6];

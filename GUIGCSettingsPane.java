@@ -71,7 +71,7 @@ public class GUIGCSettingsPane extends HBox {
 		return Float.parseFloat(this.randomDeleteField.getText());
 	}
 
-	Button buttonA, buttonB, buttonC, buttonD;
+	Button buttonA, buttonB, buttonC, buttonD, buttonE, buttonF, buttonG, buttonH;
 
 	public GUIGCSettingsPane() {
 		buttonA = new Button("Preset A");
@@ -85,6 +85,18 @@ public class GUIGCSettingsPane extends HBox {
 
 		buttonD = new Button("Preset D");
 		buttonD.setOnAction(this::presetD);
+
+		buttonE = new Button("Preset E");
+		buttonE.setOnAction(this::presetE);
+
+		buttonF = new Button("Preset F");
+		buttonF.setOnAction(this::presetF);
+
+		buttonG = new Button("Preset G");
+		buttonG.setOnAction(this::presetG);
+
+		buttonH = new Button("Preset H");
+		buttonH.setOnAction(this::presetH);
 
 		VBox presetBox = new VBox(buttonA, buttonB, buttonC, buttonD);
 		presetBox.setSpacing(20);
@@ -214,7 +226,7 @@ public class GUIGCSettingsPane extends HBox {
 		depthField.setText("8");
 		breadthField.setText("2");
 		nButtonsField.setText("1");
-		sleepTimeField.setText("100");
+		sleepTimeField.setText("0");
 		hashTimesField.setText("100");
 		randomDeleteField.setText("0.00001");
 	}
@@ -225,7 +237,29 @@ public class GUIGCSettingsPane extends HBox {
 		depthField.setText("8");
 		breadthField.setText("2");
 		nButtonsField.setText("1");
-		sleepTimeField.setText("100");
+		sleepTimeField.setText("0");
+		hashTimesField.setText("1000");
+		randomDeleteField.setText("0.00001");
+	}
+
+	public void presetG(ActionEvent event) {
+		repsField.setText("1000");
+		seedField.setText("438");
+		depthField.setText("8");
+		breadthField.setText("2");
+		nButtonsField.setText("1");
+		sleepTimeField.setText("0");
+		hashTimesField.setText("100");
+		randomDeleteField.setText("0.001");
+	}
+
+	public void presetH(ActionEvent event) {
+		repsField.setText("1000");
+		seedField.setText("438");
+		depthField.setText("8");
+		breadthField.setText("2");
+		nButtonsField.setText("1");
+		sleepTimeField.setText("0");
 		hashTimesField.setText("1000");
 		randomDeleteField.setText("0.001");
 	}

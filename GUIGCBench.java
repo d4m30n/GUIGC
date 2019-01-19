@@ -81,6 +81,18 @@ public class GUIGCBench extends Application {
 			case "D":
 				settingsPane.buttonD.fire();
 				break;
+			case "E":
+				settingsPane.buttonE.fire();
+				break;
+			case "F":
+				settingsPane.buttonF.fire();
+				break;
+			case "G":
+				settingsPane.buttonG.fire();
+				break;
+			case "H":
+				settingsPane.buttonH.fire();
+				break;
 			}
 			startButton.fire();
 			System.exit(0);
