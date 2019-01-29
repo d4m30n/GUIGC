@@ -27,51 +27,56 @@ public class GUIGCBench extends Application {
 	}
 
 	public void start(Stage primaryStage) {
-		Map<String, String> params = super.getParameters().getNamed();
+		try {
+			Map<String, String> params = super.getParameters().getNamed();
 
-		String autoRun = params.get("autoRun");
-		if (autoRun == null || !autoRun.equals("true")) {
-			autoRun = "false";
-		}
+			String autoRun = params.get("autoRun");
+			if (autoRun == null || !autoRun.equals("true")) {
+				autoRun = "false";
+			}
 
-		String asyncGCOnSleep = params.get("asyncGCOnSleep");
-		if (asyncGCOnSleep == null || !asyncGCOnSleep.equals("true")) {
-			asyncGCOnSleep = "false";
-		}
-		runAsyncGCOnSleep = asyncGCOnSleep.equals("true");
+			String asyncGCOnSleep = params.get("asyncGCOnSleep");
+			if (asyncGCOnSleep == null || !asyncGCOnSleep.equals("true")) {
+				asyncGCOnSleep = "false";
+			}
+			runAsyncGCOnSleep = asyncGCOnSleep.equals("true");
 
-		// String preset = params.get("preset");
-		int seed = Integer.parseInt(params.get("seed"));
+			// String preset = params.get("preset");
+			int seed = Integer.parseInt(params.get("seed"));
 
-		String gcNames = "";
-		for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
-			gcNames += ",#" + gc.getName();
-			gcNames += "," + gc.getName() + "(ms)";
-		}
+			String gcNames = "";
+			for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
+				gcNames += ",#" + gc.getName();
+				gcNames += "," + gc.getName() + "(ms)";
+			}
 
-		primaryStage.setTitle("GUI GC Bench");
+			primaryStage.setTitle("GUI GC Bench");
 
-		startButton = new Button("Start!");
-		startButton.setOnAction(this::startTest);
-		startButton.setPrefWidth(300);
+			startButton = new Button("Start!");
+			startButton.setOnAction(this::startTest);
+			startButton.setPrefWidth(300);
 
-		VBox vbox = new VBox(settingsPane, startButton);
-		vbox.setSpacing(20);
-		vbox.setAlignment(Pos.CENTER);
-		vbox.setStyle("-fx-font-size:30px");
+			VBox vbox = new VBox(settingsPane, startButton);
+			vbox.setSpacing(20);
+			vbox.setAlignment(Pos.CENTER);
+			vbox.setStyle("-fx-font-size:30px");
 
-		Scene scene = new Scene(vbox, 650, 500);
+			Scene scene = new Scene(vbox, 650, 500);
 
-		primaryStage.setScene(scene);
-		primaryStage.show();
+			primaryStage.setScene(scene);
+			primaryStage.show();
 
-		if (autoRun.equals("true")) {
-			settingsPane.setPrameters(seed);
-			System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
-			startButton.fire();
-			System.exit(0);
-		} else {
-			System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
+			if (autoRun.equals("true")) {
+				settingsPane.setPrameters(seed);
+				System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
+				startButton.fire();
+				System.exit(0);
+			} else {
+				System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
+			}
+		} catch (OutOfMemoryError oome) {
+			System.out.println("OutOfMemoryError");
+			System.exit(1);
 		}
 	}
 
@@ -84,7 +89,7 @@ public class GUIGCBench extends Application {
 		int sleepTime = settingsPane.getSleepTime();
 
 		for (int i = 0; i < reps; i++) {
-				GUIGCStage.runTest(settingsPane, seed, depth, breadth, nButtons, sleepTime, runAsyncGCOnSleep);
+			GUIGCStage.runTest(settingsPane, seed, depth, breadth, nButtons, sleepTime, runAsyncGCOnSleep);
 		}
 	}
 }
