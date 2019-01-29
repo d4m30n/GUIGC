@@ -1,4 +1,5 @@
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -6,6 +7,8 @@ import javafx.scene.layout.*;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Button;
 import java.util.Random;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import java.io.UnsupportedEncodingException;
@@ -14,6 +17,9 @@ import java.lang.management.ManagementFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class GUIGCStage extends Stage {
 	private static int nextId = 0;
@@ -102,11 +108,6 @@ public class GUIGCStage extends Stage {
 				}
 				System.out.println("Hash: " + hashString);
 			}
-			int numToDelete = (int) Math.ceil(bList.size() * settings.getDeletePercentage());
-			for (int i = 0; i < numToDelete; i++) {
-				int itemToDelete = settings.getRandomNumber(0, bList.size());
-				bList.remove(itemToDelete);
-			}
 		} catch (NoSuchAlgorithmException nsae) {
 
 		} catch (UnsupportedEncodingException uee) {
@@ -114,7 +115,24 @@ public class GUIGCStage extends Stage {
 		}
 	}
 
+	private void paneDelete(Pane p, int place) {
+		Iterator<Node> it = p.getChildren().iterator();
+		while (it.hasNext()) {
+			Node n = it.next();
+			if (n instanceof Pane) {
+				if (place >= settings.getDepthDelete() && settings.shouldIDelete()) {
+					it.remove();
+					return;
+				}
+				paneDelete((Pane) n, place++);
+			}
+		}
+	}
+
 	void clickButtons() {
+		if (settings.getDepthDelete() != 0) {
+			paneDelete(rootPane, 0);
+		}
 		clickButtons(rootPane);
 	}
 
@@ -122,24 +140,25 @@ public class GUIGCStage extends Stage {
 		if (parent == null) {
 			return;
 		}
-
-		parent.getChildren().forEach((item) -> {
+		Iterator<Node> it = parent.getChildren().iterator();
+		while (it.hasNext()) {
+			Node item = it.next();
 			if (item instanceof Button) {
 				((Button) item).fire();
 			}
 			if (item instanceof Pane) {
 				clickButtons((Pane) item);
 			}
-		});
+		}
 	}
 
 	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons, int sleepTime,
-			boolean runAsyncGCOnSleep) {
+			boolean runAsyncGCOnSleep) throws OutOfMemoryError{
 		try {
 			ArrayList<GCStats> gcs0 = collectGCStats();
 			long[] t = new long[6];
-			t[0] = System.currentTimeMillis();
-			GUIGCStage testStage = new GUIGCStage(settings, seed, depth, breadth, nButtons);
+				t[0] = System.currentTimeMillis();
+				GUIGCStage testStage = new GUIGCStage(settings, seed, depth, breadth, nButtons);
 			t[1] = System.currentTimeMillis();
 			testStage.show();
 			t[2] = System.currentTimeMillis();

@@ -27,7 +27,6 @@ public class GUIGCBench extends Application {
 	}
 
 	public void start(Stage primaryStage) {
-
 		Map<String, String> params = super.getParameters().getNamed();
 
 		String autoRun = params.get("autoRun");
@@ -41,15 +40,14 @@ public class GUIGCBench extends Application {
 		}
 		runAsyncGCOnSleep = asyncGCOnSleep.equals("true");
 
-		String preset = params.get("preset");
+		// String preset = params.get("preset");
+		int seed = Integer.parseInt(params.get("seed"));
 
 		String gcNames = "";
 		for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
 			gcNames += ",#" + gc.getName();
 			gcNames += "," + gc.getName() + "(ms)";
 		}
-
-		System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
 
 		primaryStage.setTitle("GUI GC Bench");
 
@@ -68,34 +66,12 @@ public class GUIGCBench extends Application {
 		primaryStage.show();
 
 		if (autoRun.equals("true")) {
-			switch (preset) {
-			case "A":
-				settingsPane.buttonA.fire();
-				break;
-			case "B":
-				settingsPane.buttonB.fire();
-				break;
-			case "C":
-				settingsPane.buttonC.fire();
-				break;
-			case "D":
-				settingsPane.buttonD.fire();
-				break;
-			case "E":
-				settingsPane.buttonE.fire();
-				break;
-			case "F":
-				settingsPane.buttonF.fire();
-				break;
-			case "G":
-				settingsPane.buttonG.fire();
-				break;
-			case "H":
-				settingsPane.buttonH.fire();
-				break;
-			}
+			settingsPane.setPrameters(seed);
+			System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
 			startButton.fire();
 			System.exit(0);
+		} else {
+			System.out.println("Create,Show,Firing,Close,Sleep,Total" + gcNames);
 		}
 	}
 
@@ -108,7 +84,7 @@ public class GUIGCBench extends Application {
 		int sleepTime = settingsPane.getSleepTime();
 
 		for (int i = 0; i < reps; i++) {
-			GUIGCStage.runTest(settingsPane, seed, depth, breadth, nButtons, sleepTime, runAsyncGCOnSleep);
+				GUIGCStage.runTest(settingsPane, seed, depth, breadth, nButtons, sleepTime, runAsyncGCOnSleep);
 		}
 	}
 }

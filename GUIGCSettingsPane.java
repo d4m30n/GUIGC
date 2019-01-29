@@ -21,6 +21,7 @@ public class GUIGCSettingsPane extends HBox {
 	TextField sleepTimeField = new TextField("100");
 	TextField hashTimesField = new TextField("0");
 	TextField randomDeleteField = new TextField("0");
+	TextField depthDeleteField = new TextField("0");
 
 	private Random rand = null; // The random number generator.
 
@@ -48,6 +49,15 @@ public class GUIGCSettingsPane extends HBox {
 		return rand.nextInt(high - low) + low;
 	}
 
+	public boolean shouldIDelete() {
+		Float deletePercentage = getDeletePercentage() * 100;
+		int randomNumber = getRandomNumber(0, 100 + 1);
+		if (randomNumber >= deletePercentage) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * AUTHOR: Harry McCarthy Generate a random string on the lenght defined above.
 	 * 
@@ -61,6 +71,28 @@ public class GUIGCSettingsPane extends HBox {
 			returnString += ALPHABET.charAt(getRandomNumber(0, ALPHABET.length()));
 		}
 		return returnString;
+	}
+
+	public void setPrameters(int seed) {
+		seedField.setText(seed + "");
+		int depth = getRandomNumber(1, 10 + 1);
+		int breadth = getRandomNumber(1, 10 + 1);
+		int buttons = getRandomNumber(1, 3 + 1);
+		int sleeptime = getRandomNumber(0, 100 + 1);
+		int hashreps = getRandomNumber(0, 1000 + 1);
+		float deletePercent = ((float) getRandomNumber(0, 100 + 1) / 100);
+		int mindeletedepth = getRandomNumber(3, 5 + 1);
+		System.out.println("reps,seed,depth,breadth,buttons,sleeptime,hashreps,delete percent,min delete depth");
+		System.out.println("1000," + seed + "," + depth + "," + breadth + "," + buttons + "," + sleeptime + "," + hashreps
+				+ "," + deletePercent + "," + mindeletedepth);
+		repsField.setText("1000");
+		depthField.setText(depth + "");
+		breadthField.setText(breadth + "");
+		nButtonsField.setText(buttons + "");
+		sleepTimeField.setText(sleeptime + "");
+		hashTimesField.setText(hashreps + "");
+		randomDeleteField.setText(deletePercent + "");
+		depthDeleteField.setText(mindeletedepth + "");
 	}
 
 	public int getHashNumber() {
@@ -98,7 +130,7 @@ public class GUIGCSettingsPane extends HBox {
 		buttonH = new Button("Preset H");
 		buttonH.setOnAction(this::presetH);
 
-		VBox presetBox = new VBox(buttonA, buttonB, buttonC, buttonD);
+		VBox presetBox = new VBox(buttonA, buttonB, buttonC, buttonD, buttonE, buttonF, buttonG, buttonH);
 		presetBox.setSpacing(20);
 
 		GridPane grid = new GridPane();
@@ -146,6 +178,11 @@ public class GUIGCSettingsPane extends HBox {
 		grid.add(randomDeleteLabel, 0, 7);
 		grid.add(randomDeleteField, 1, 7);
 
+		Label depthDeleteLabel = new Label("Start Delete Depth: ");
+		depthDeleteField.setPrefWidth(150);
+		grid.add(depthDeleteLabel, 0, 8);
+		grid.add(depthDeleteField, 1, 8);
+
 		super.getChildren().addAll(presetBox, grid);
 		super.setSpacing(20);
 		super.setAlignment(Pos.CENTER);
@@ -176,6 +213,10 @@ public class GUIGCSettingsPane extends HBox {
 		return Integer.parseInt(sleepTimeField.getText());
 	}
 
+	public int getDepthDelete() {
+		return Integer.parseInt(depthDeleteField.getText());
+	}
+
 	public void presetA(ActionEvent event) {
 		repsField.setText("1000");
 		seedField.setText("438");
@@ -185,6 +226,7 @@ public class GUIGCSettingsPane extends HBox {
 		sleepTimeField.setText("100");
 		hashTimesField.setText("0");
 		randomDeleteField.setText("0");
+		depthDeleteField.setText("0");
 	}
 
 	public void presetB(ActionEvent event) {
@@ -196,6 +238,7 @@ public class GUIGCSettingsPane extends HBox {
 		sleepTimeField.setText("100");
 		hashTimesField.setText("0");
 		randomDeleteField.setText("0");
+		depthDeleteField.setText("0");
 	}
 
 	public void presetC(ActionEvent event) {
@@ -207,6 +250,7 @@ public class GUIGCSettingsPane extends HBox {
 		sleepTimeField.setText("100");
 		hashTimesField.setText("0");
 		randomDeleteField.setText("0");
+		depthDeleteField.setText("0");
 	}
 
 	public void presetD(ActionEvent event) {
@@ -218,6 +262,7 @@ public class GUIGCSettingsPane extends HBox {
 		sleepTimeField.setText("0");
 		hashTimesField.setText("0");
 		randomDeleteField.setText("0");
+		depthDeleteField.setText("0");
 	}
 
 	public void presetE(ActionEvent event) {
@@ -228,7 +273,8 @@ public class GUIGCSettingsPane extends HBox {
 		nButtonsField.setText("1");
 		sleepTimeField.setText("0");
 		hashTimesField.setText("100");
-		randomDeleteField.setText("0.00001");
+		randomDeleteField.setText("0.10");
+		depthDeleteField.setText("3");
 	}
 
 	public void presetF(ActionEvent event) {
@@ -239,7 +285,8 @@ public class GUIGCSettingsPane extends HBox {
 		nButtonsField.setText("1");
 		sleepTimeField.setText("0");
 		hashTimesField.setText("1000");
-		randomDeleteField.setText("0.00001");
+		randomDeleteField.setText("0.30");
+		depthDeleteField.setText("3");
 	}
 
 	public void presetG(ActionEvent event) {
@@ -250,7 +297,8 @@ public class GUIGCSettingsPane extends HBox {
 		nButtonsField.setText("1");
 		sleepTimeField.setText("0");
 		hashTimesField.setText("100");
-		randomDeleteField.setText("0.001");
+		randomDeleteField.setText("0.10");
+		depthDeleteField.setText("3");
 	}
 
 	public void presetH(ActionEvent event) {
@@ -261,6 +309,7 @@ public class GUIGCSettingsPane extends HBox {
 		nButtonsField.setText("1");
 		sleepTimeField.setText("0");
 		hashTimesField.setText("1000");
-		randomDeleteField.setText("0.001");
+		randomDeleteField.setText("0.30");
+		depthDeleteField.setText("3");
 	}
 }
