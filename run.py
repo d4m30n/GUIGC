@@ -3,7 +3,7 @@ import signal
 import os
 import time
 
-pstotal = 1
+pstotal = 15
 process = []
 logfile = "log.txt"
 errorfile = "error.txt"
