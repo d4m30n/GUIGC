@@ -1,0 +1,7 @@
+jfxrt.jar
+.vscode/*
+*.class
+errors.csv
+errors.xlsx
+results.csv
+results.ods
