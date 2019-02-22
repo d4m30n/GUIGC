@@ -24,7 +24,6 @@ import java.util.Iterator;
 public class GUIGCStage extends Stage {
 	private static int nextId = 0;
 	private final int ID = nextId++;
-	private ArrayList<Button> bList = new ArrayList<>();
 
 	private Pane rootPane;
 	private GUIGCSettingsPane settings; // Link to the initial settings.
@@ -81,7 +80,6 @@ public class GUIGCStage extends Stage {
 			for (int i = 0; i < nButtons; i++) {
 				Button button = new Button("Click");
 				button.setOnAction(this::clicked);
-				bList.add(button);
 				parent.getChildren().addAll(button);
 			}
 		}
