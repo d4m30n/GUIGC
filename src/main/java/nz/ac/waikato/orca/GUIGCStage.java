@@ -1,14 +1,14 @@
+package nz.ac.waikato.orca;
+
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.layout.*;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Button;
 import java.util.Random;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import java.io.UnsupportedEncodingException;
@@ -17,8 +17,6 @@ import java.lang.management.ManagementFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class GUIGCStage extends Stage {
@@ -28,7 +26,7 @@ public class GUIGCStage extends Stage {
 	private Pane rootPane;
 	private GUIGCSettingsPane settings; // Link to the initial settings.
 
-	private volatile int clicks = 0;
+	// private volatile int clicks = 0;
 
 	private static ArrayList<GCStats> collectGCStats() {
 		ArrayList<GCStats> gcList = new ArrayList<GCStats>();
@@ -94,7 +92,7 @@ public class GUIGCStage extends Stage {
 
 	void clicked(ActionEvent event) {
 		try {
-			clicks++;
+			// clicks++;
 			if (settings.getHashNumber() > 0) {
 				// preform a hash when the button is clicked. NOTE: There is a setting that
 				// determins the number of hashs.
@@ -104,7 +102,7 @@ public class GUIGCStage extends Stage {
 					md.reset();
 					hashString = md.digest(hashString);
 				}
-				System.out.println("Hash: " + hashString);
+				System.err.println("Hash: " + hashString);
 			}
 		} catch (NoSuchAlgorithmException nsae) {
 
@@ -150,13 +148,13 @@ public class GUIGCStage extends Stage {
 		}
 	}
 
-	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons, int sleepTime,
-			boolean runAsyncGCOnSleep) throws OutOfMemoryError{
+	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons,
+			int sleepTime, boolean runAsyncGCOnSleep) throws OutOfMemoryError {
 		try {
 			ArrayList<GCStats> gcs0 = collectGCStats();
 			long[] t = new long[6];
-				t[0] = System.currentTimeMillis();
-				GUIGCStage testStage = new GUIGCStage(settings, seed, depth, breadth, nButtons);
+			t[0] = System.currentTimeMillis();
+			GUIGCStage testStage = new GUIGCStage(settings, seed, depth, breadth, nButtons);
 			t[1] = System.currentTimeMillis();
 			testStage.show();
 			t[2] = System.currentTimeMillis();
@@ -176,22 +174,17 @@ public class GUIGCStage extends Stage {
 			}
 			t[5] = System.currentTimeMillis();
 			ArrayList<GCStats> gcs1 = collectGCStats();
-
-			for (int i = 1; i < t.length; i++) {
-				System.out.print((t[i] - t[i - 1]) + ",");
-			}
-			System.out.print((t[t.length - 1] - t[0]) + ",");
-
-			for (GCStats gcStats0 : gcs0) {
-				for (GCStats gcStats1 : gcs1) {
-					if (gcStats0.NAME.equals(gcStats1.NAME)) {
-						System.out.print((gcStats1.COUNT - gcStats0.COUNT) + ",");
-						System.out.print((gcStats1.TIME - gcStats0.TIME) + ",");
-					}
-				}
-			}
-
-			System.out.println();
+			/**
+			 * for (int i = 1; i < t.length; i++) { System.out.print((t[i] - t[i - 1]) +
+			 * ","); } System.out.print((t[t.length - 1] - t[0]) + ",");
+			 * 
+			 * for (GCStats gcStats0 : gcs0) { for (GCStats gcStats1 : gcs1) { if
+			 * (gcStats0.NAME.equals(gcStats1.NAME)) { System.out.print((gcStats1.COUNT -
+			 * gcStats0.COUNT) + ","); System.out.print((gcStats1.TIME - gcStats0.TIME) +
+			 * ","); } } }
+			 * 
+			 * System.out.println();
+			 */
 
 		} catch (Exception e) {
 			e.printStackTrace(System.err);

@@ -1,3 +1,5 @@
+package nz.ac.waikato.orca;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.GridPane;
@@ -6,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.geometry.Pos;
 import javafx.event.ActionEvent;
+
 import java.util.Random;
 
 public class GUIGCSettingsPane extends HBox {
@@ -13,15 +16,25 @@ public class GUIGCSettingsPane extends HBox {
 	final String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	final int MIN_CHAR = 1;
 	final int MAX_CHAR = 50;
-	TextField repsField = new TextField("1000");
-	TextField seedField = new TextField("438");
-	TextField depthField = new TextField("8");
-	TextField breadthField = new TextField("2");
-	TextField nButtonsField = new TextField("1");
-	TextField sleepTimeField = new TextField("100");
-	TextField hashTimesField = new TextField("0");
-	TextField randomDeleteField = new TextField("0");
-	TextField depthDeleteField = new TextField("0");
+	private TextField repsField = new TextField("1000");
+	private TextField seedField = new TextField("438");
+	private TextField depthField = new TextField("8");
+	private TextField breadthField = new TextField("2");
+	private TextField nButtonsField = new TextField("1");
+	private TextField sleepTimeField = new TextField("100");
+	private TextField hashTimesField = new TextField("0");
+	private TextField randomDeleteField = new TextField("0");
+	private TextField depthDeleteField = new TextField("0");
+
+	public final ParameterInteger reps = new ParameterInteger(1000, null, 1, "Reps");
+	public final ParameterInteger seed = new ParameterInteger(438, "Seed");
+	public final ParameterInteger depth = new ParameterInteger(8, 10, 1, "Depth");
+	public final ParameterInteger breadth = new ParameterInteger(2, 10, 1, "Breadth");
+	public final ParameterInteger buttons = new ParameterInteger(1, null, 1, "Buttons");
+	public final ParameterInteger sleep = new ParameterInteger(0, null, 0, "Sleep");
+	public final ParameterInteger hash = new ParameterInteger(0, null, 0, "Hash");
+	public final ParameterFloat deleteRandom = new ParameterFloat(0, 50, 0, "Random Delete");
+	public final ParameterInteger depthDelete = new ParameterInteger(0, 9, 0, "Depth Delete");
 
 	private Random rand = null; // The random number generator.
 
@@ -83,8 +96,8 @@ public class GUIGCSettingsPane extends HBox {
 		float deletePercent = ((float) getRandomNumber(0, 100 + 1) / 100);
 		int mindeletedepth = getRandomNumber(3, 5 + 1);
 		System.out.println("reps,seed,depth,breadth,buttons,sleeptime,hashreps,delete percent,min delete depth");
-		System.out.println("1000," + seed + "," + depth + "," + breadth + "," + buttons + "," + sleeptime + "," + hashreps
-				+ "," + deletePercent + "," + mindeletedepth);
+		System.out.println("1000," + seed + "," + depth + "," + breadth + "," + buttons + "," + sleeptime + ","
+				+ hashreps + "," + deletePercent + "," + mindeletedepth);
 		repsField.setText("1000");
 		depthField.setText(depth + "");
 		breadthField.setText(breadth + "");
@@ -96,11 +109,11 @@ public class GUIGCSettingsPane extends HBox {
 	}
 
 	public int getHashNumber() {
-		return Integer.parseInt(this.hashTimesField.getText());
+		return hash.get();
 	}
 
 	public float getDeletePercentage() {
-		return Float.parseFloat(this.randomDeleteField.getText());
+		return deleteRandom.get();
 	}
 
 	Button buttonA, buttonB, buttonC, buttonD, buttonE, buttonF, buttonG, buttonH;
@@ -190,31 +203,31 @@ public class GUIGCSettingsPane extends HBox {
 	}
 
 	public int getReps() {
-		return Integer.parseInt(repsField.getText());
+		return reps.get();
 	}
 
 	public int getSeed() {
-		return Integer.parseInt(seedField.getText());
+		return seed.get();
 	}
 
 	public int getDepth() {
-		return Integer.parseInt(depthField.getText());
+		return depth.get();
 	}
 
 	public int getBreadth() {
-		return Integer.parseInt(breadthField.getText());
+		return breadth.get();
 	}
 
 	public int getNButtons() {
-		return Integer.parseInt(nButtonsField.getText());
+		return buttons.get();
 	}
 
 	public int getSleepTime() {
-		return Integer.parseInt(sleepTimeField.getText());
+		return sleep.get();
 	}
 
 	public int getDepthDelete() {
-		return Integer.parseInt(depthDeleteField.getText());
+		return depthDelete.get();
 	}
 
 	public void presetA(ActionEvent event) {
