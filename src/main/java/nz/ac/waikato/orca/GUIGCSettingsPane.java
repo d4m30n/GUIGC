@@ -31,8 +31,8 @@ public class GUIGCSettingsPane extends HBox {
 	public final ParameterInteger depth = new ParameterInteger(8, 10, 1, "Depth");
 	public final ParameterInteger breadth = new ParameterInteger(2, 10, 1, "Breadth");
 	public final ParameterInteger buttons = new ParameterInteger(1, null, 1, "Buttons");
-	public final ParameterInteger sleep = new ParameterInteger(0, null, 0, "Sleep");
-	public final ParameterInteger hash = new ParameterInteger(0, null, 0, "Hash");
+	public final ParameterInteger sleep = new ParameterInteger(1, null, 1, "Sleep");
+	public final ParameterInteger hash = new ParameterInteger(1, null, 1, "Hash");
 	public final ParameterFloat deleteRandom = new ParameterFloat(0, 50, 0, "Random Delete");
 	public final ParameterInteger depthDelete = new ParameterInteger(0, 9, 0, "Depth Delete");
 
