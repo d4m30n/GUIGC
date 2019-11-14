@@ -32,8 +32,6 @@ public class GUIGCBench extends Application {
 	private Double _cpuSetpoint = null;
 	private Double _memorySetpoint = null;
 
-	private double[] intercepts = { 3.379724, 4.107224 };
-
 	private void getSystemParameters() {
 		String value = params.get("autoRun");
 		if (value != null && value.equals("true")) {
@@ -64,7 +62,7 @@ public class GUIGCBench extends Application {
 		if (value != null) {
 			try {
 				double tmp = Double.parseDouble(value);
-				_cpuSetpoint = Math.log(tmp) - intercepts[0];
+				_cpuSetpoint = tmp;
 			} catch (NumberFormatException nfe) {
 				_cpuSetpoint = null;
 			}
@@ -73,7 +71,7 @@ public class GUIGCBench extends Application {
 		if (value != null) {
 			try {
 				double tmp = Double.parseDouble(value);
-				_memorySetpoint = Math.log(tmp) - intercepts[1];
+				_memorySetpoint = tmp;
 			} catch (NumberFormatException nfe) {
 				_memorySetpoint = null;
 			}
@@ -161,17 +159,18 @@ public class GUIGCBench extends Application {
 	}
 
 	private ControllerLQR createLQRController() {
-		double[][] A = { { -1, 0 }, { 0, 1 } };
-		double[][] B = { { 0.263578, -0.431963, 0.691454 }, { 0.001215, -0.006633, 0.024829 } };
+		double[][] A = { { -0.05, 0 }, { 0, -0.1 } };
+		double[][] B = { { 0.263578, -0.431963, 0.691454 }, { 0.001215, 0.006633, 0.024829 } };
 		double[][] C = { { 1, 0 }, { 0, 1 } };
 		double[][] D = { { 0, 0, 0 }, { 0, 0, 0 } };
-		double[][] K = { { 0.06878757, 0 }, { -0.05636602, 0 }, { 0.90226494, 0 } };
-		double[] x = { Math.log(1) - intercepts[0], Math.log(1) - intercepts[1] };
+		double[][] Q = { { 1, 0 }, { 0, 1 } };
+		double[][] R = { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+		double[] x = { ModelLQR.encodeMeasurement(1, ModelLQR.CPU), ModelLQR.encodeMeasurement(1, ModelLQR.MEMORY) };
 		double[] u = { settingsPane.hash.get(), settingsPane.sleep.get(), settingsPane.buttons.get() };
 		int[] uIDs = { settingsPane.hash.ID, settingsPane.sleep.ID, settingsPane.buttons.ID };
 		ControllerLQR controller = null;
 		try {
-			controller = new ControllerLQR(A, B, C, D, K, x, u, uIDs);
+			controller = new ControllerLQR(A, B, C, D, Q, R, x, u, uIDs);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -196,7 +195,6 @@ public class GUIGCBench extends Application {
 				settingsPane.depth, settingsPane.breadth };
 		settingsPane.depth.setWeight(ParameterInterface.Weights.IGNORE);
 		settingsPane.breadth.setWeight(ParameterInterface.Weights.IGNORE);
-		settingsPane.sleep.setWeight(ParameterInterface.Weights.NEGATIVE);
 
 		try {
 			System.out.println("Runtime:" + timeInMinutes);
