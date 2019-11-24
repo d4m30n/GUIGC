@@ -28,11 +28,11 @@ public class GUIGCSettingsPane extends HBox {
 
 	public final ParameterInteger reps = new ParameterInteger(1000, null, 1, "Reps");
 	public final ParameterInteger seed = new ParameterInteger(438, "Seed");
-	public final ParameterInteger depth = new ParameterInteger(8, 10, 1, "Depth");
+	public final ParameterInteger depth = new ParameterInteger(8, 5, 1, "Depth");
 	public final ParameterInteger breadth = new ParameterInteger(2, 10, 1, "Breadth");
-	public final ParameterInteger buttons = new ParameterInteger(1, null, 1, "Buttons");
-	public final ParameterInteger sleep = new ParameterInteger(1, null, 1, "Sleep");
-	public final ParameterInteger hash = new ParameterInteger(1, null, 1, "Hash");
+	public final ParameterInteger buttons = new ParameterInteger(1, 100, 1, "Buttons");
+	public final ParameterInteger sleep = new ParameterInteger(1, 10000, 1, "Sleep");
+	public final ParameterInteger hash = new ParameterInteger(1, 10000, 1, "Hash");
 	public final ParameterFloat deleteRandom = new ParameterFloat(0, 50, 0, "Random Delete");
 	public final ParameterInteger depthDelete = new ParameterInteger(0, 9, 0, "Depth Delete");
 
@@ -96,8 +96,8 @@ public class GUIGCSettingsPane extends HBox {
 		float deletePercent = ((float) getRandomNumber(0, 100 + 1) / 100);
 		int mindeletedepth = getRandomNumber(3, 5 + 1);
 		System.out.println("reps,seed,depth,breadth,buttons,sleeptime,hashreps,delete percent,min delete depth");
-		System.out.println("1000," + seed + "," + depth + "," + breadth + "," + buttons + "," + sleeptime + ","
-				+ hashreps + "," + deletePercent + "," + mindeletedepth);
+		System.out.println("1000," + seed + "," + depth + "," + breadth + "," + buttons + "," + sleeptime + "," + hashreps
+				+ "," + deletePercent + "," + mindeletedepth);
 		repsField.setText("1000");
 		depthField.setText(depth + "");
 		breadthField.setText(breadth + "");
