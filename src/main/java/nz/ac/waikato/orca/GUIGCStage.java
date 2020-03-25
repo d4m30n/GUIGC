@@ -148,8 +148,8 @@ public class GUIGCStage extends Stage {
 		}
 	}
 
-	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons,
-			int sleepTime, boolean runAsyncGCOnSleep) throws OutOfMemoryError {
+	public static void runTest(GUIGCSettingsPane settings, int seed, int depth, int breadth, int nButtons, int sleepTime,
+			boolean runAsyncGCOnSleep) throws OutOfMemoryError {
 		try {
 			ArrayList<GCStats> gcs0 = collectGCStats();
 			long[] t = new long[6];
